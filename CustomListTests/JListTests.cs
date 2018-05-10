@@ -101,5 +101,28 @@ namespace CustomListTests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void RemoveAt_RemoveMiddleIndex_IndexRemovedMinusOneValueRemainsSame()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = 1;
+            JList<int> j = new JList<int>();
+
+            // Act
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            int expected = j[index - 1];
+
+            j.RemoveAt(index);
+
+            //Assert
+            int actual = j[index - 1];
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
