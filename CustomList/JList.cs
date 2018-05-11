@@ -30,7 +30,7 @@ namespace CustomList
                     return data[index];
                 }
 
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             }
 
             set
@@ -40,7 +40,7 @@ namespace CustomList
                     data[index] = value;
                 }
 
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -88,7 +88,25 @@ namespace CustomList
 
         public void Insert(int index, T value)
         {
+            if(index >= 0 && index < count)
+            {
+                if (IsNearCapacity(1))
+                {
+                    IncreaseCapacity(count + 1);
+                }
 
+                for (int i = count; i >= index; i--)
+                {
+                    data[i] = data[i - 1];
+                }
+
+                data[index] = value;
+                count++;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
 
         private bool IsNearCapacity(int expectedCountIncrease)
@@ -112,7 +130,12 @@ namespace CustomList
 
         public void Remove(T value)
         {
+            int index = Find(value);
 
+            if(index >= 0)
+            {
+                RemoveAt(index);
+            }
         }
 
         public void RemoveAt(int index)
@@ -134,7 +157,7 @@ namespace CustomList
             }
             else
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException();
             }
 
         }

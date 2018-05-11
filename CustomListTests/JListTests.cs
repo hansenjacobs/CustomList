@@ -96,6 +96,109 @@ namespace CustomListTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Insert_InvalidIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            int index = 40;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            j.Insert(index, 100);
+
+            // Assert
+        }
+
+        [TestMethod]
+        public void Insert_ValidIndex_CountIncreases()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            int index = 19;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int expected = j.Count + 1;
+            j.Insert(index, 100);
+
+            // Assert
+            int actual = j.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Insert_ValidIndex_ValueAppearsAtSpecifiedIndex()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            int index = 19;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int expected = 100;
+            j.Insert(index, expected);
+
+            // Assert
+            int actual = j[index];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Insert_ValidIndex_ValueAtIndexMovesRight()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            int index = 19;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int expected = j[index];
+            j.Insert(index, 100);
+
+            // Assert
+            int actual = j[index + 1];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Insert_ValidIndex_ValueAtLeftRemainsSame()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            int index = 19;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int expected = j[index - 1];
+            j.Insert(index, 100);
+
+            // Assert
+            int actual = j[index - 1];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void Remove_ValueInList_ValueIsRemoved()
         {
             // Arrange
@@ -136,7 +239,7 @@ namespace CustomListTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RemoveAt_InvalidIndex_IndexOutOfRangeException()
         {
             // Arrange
@@ -156,7 +259,7 @@ namespace CustomListTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RemoveAt_NegativeIndex_IndexOutOfRangeException()
         {
             // Arrange
@@ -239,7 +342,7 @@ namespace CustomListTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Indexer_InvalidIndex_IndexOutOfRangeException()
         {
             // Arrange
@@ -259,7 +362,7 @@ namespace CustomListTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Indexer_NegativeIndex_IndexOutOfRangeException()
         {
             // Arrange
