@@ -124,5 +124,104 @@ namespace CustomListTests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void RemoveAt_RemoveInvlidIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = 10;
+            JList<int> j = new JList<int>();
+
+            // Act
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            j.RemoveAt(index);
+
+            //Assert
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void RemoveAt_RemoveNegativeIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = -1;
+            JList<int> j = new JList<int>();
+
+            // Act
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            j.RemoveAt(index);
+
+            //Assert
+
+        }
+
+        [TestMethod]
+        public void Indexer_ValidIndex_ReturnValueAtIndex()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = 1;
+            int expected = index;
+            JList<int> j = new JList<int>();
+
+            // Act
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Assert
+            int actual = j[index];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void Indexer_InvalidIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = 10;
+            JList<int> j = new JList<int>();
+
+            // Act
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Assert
+            int actual = j[index];
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void Indexer_NegativeIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = -1;
+            JList<int> j = new JList<int>();
+
+            // Act
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Assert
+            int actual = j[index];
+        }
     }
 }
