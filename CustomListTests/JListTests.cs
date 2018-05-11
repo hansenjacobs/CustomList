@@ -34,7 +34,7 @@ namespace CustomListTests
             j.Add(expected);
 
             //Assert
-            int actual = j[1];
+            int actual = j[j.Count - 1];
             Assert.AreEqual(expected, actual);
         }
 
@@ -52,7 +52,7 @@ namespace CustomListTests
             }
 
             //Assert
-            int expected = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(itemsToAdd) / JList<int>.CapacityIncrement));
+            int expected = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(itemsToAdd * 2) / JList<int>.CapacityIncrementor) * JList<int>.CapacityIncrementor);
             int actual = j.Capacity;
             Assert.AreEqual(expected, actual);
         }

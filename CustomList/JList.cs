@@ -8,7 +8,7 @@ namespace CustomList
 {
     public class JList<T>
     {
-        static int capacityIncrement = 5;
+        static int capacityIncrementor = 5;
 
         T[] data;
         int count;
@@ -26,9 +26,9 @@ namespace CustomList
             get { return capacity; }
         }
 
-        public static int CapacityIncrement
+        public static int CapacityIncrementor
         {
-            get { return capacityIncrement; }
+            get { return capacityIncrementor; }
         }
 
         public int Count
@@ -44,7 +44,32 @@ namespace CustomList
 
         public void Add(T value)
         {
+            if(isNearCapacity(1))
+            {
+                IncreaseCapacity(count + 1);
+            }
 
+            data[count] = value;
+            count++;
+        }
+
+        private bool isNearCapacity(int expectedCountIncrease)
+        {
+            return Convert.ToDouble(count + expectedCountIncrease) >= 0.6;
+        }
+
+        private void IncreaseCapacity(int newCount)
+        {
+            int newCapacity = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(newCount * 2) / capacityIncrementor) * capacityIncrementor);
+
+            T[] temporaryArray = new T[newCapacity];
+            for(int i = 0; i < count; i++)
+            {
+                temporaryArray[i] = data[i];
+            }
+
+            data = temporaryArray;
+            capacity = newCapacity;
         }
 
         public void Insert(int index, T value)
@@ -59,6 +84,25 @@ namespace CustomList
 
         public void RemoveAt(int index)
         {
+            if(index >= 0 && index < count)
+            {
+                for (int i = index; i < count; i++)
+                {
+                    if (i != count - 1)
+                    {
+                        data[i] = data[i + 1];
+                    }
+                    else
+                    {
+                        data[i] = default(T);
+                    }
+                }
+                count--;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
 
         }
 
