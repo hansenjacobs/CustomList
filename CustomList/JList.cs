@@ -21,6 +21,12 @@ namespace CustomList
             capacity = 5;
         }
 
+        public T this[int index]
+        {
+            get { return data[index]; }
+            set { data[index] = value; }
+        }
+
         public int Capacity
         {
             get { return capacity; }
@@ -36,15 +42,9 @@ namespace CustomList
             get { return count; }
         }
 
-        public T this[int index]
-        {
-            get { return data[index]; }
-            private set { data[index] = value; }
-        }
-
         public void Add(T value)
         {
-            if(isNearCapacity(1))
+            if(IsNearCapacity(1))
             {
                 IncreaseCapacity(count + 1);
             }
@@ -53,7 +53,17 @@ namespace CustomList
             count++;
         }
 
-        private bool isNearCapacity(int expectedCountIncrease)
+        public void Find(T value)
+        {
+
+        }
+
+        public void Insert(int index, T value)
+        {
+
+        }
+
+        private bool IsNearCapacity(int expectedCountIncrease)
         {
             return Convert.ToDouble(count + expectedCountIncrease) >= 0.6;
         }
@@ -70,11 +80,6 @@ namespace CustomList
 
             data = temporaryArray;
             capacity = newCapacity;
-        }
-
-        public void Insert(int index, T value)
-        {
-
         }
 
         public void Remove(T value)
