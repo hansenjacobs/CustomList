@@ -23,8 +23,25 @@ namespace CustomList
 
         public T this[int index]
         {
-            get { return data[index]; }
-            set { data[index] = value; }
+            get
+            {
+                if(index >= 0 && index < count)
+                {
+                    return data[index];
+                }
+
+                throw new IndexOutOfRangeException();
+            }
+
+            set
+            {
+                if(index >= 0 && index < count)
+                {
+                    data[index] = value;
+                }
+
+                throw new IndexOutOfRangeException();
+            }
         }
 
         public int Capacity
@@ -53,9 +70,20 @@ namespace CustomList
             count++;
         }
 
-        public void Find(T value)
+        public int Find(T value)
         {
+            int index = -1;
 
+            for(int i = 0; i < count; i++)
+            {
+                if (data[i].Equals(value))
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
         }
 
         public void Insert(int index, T value)
