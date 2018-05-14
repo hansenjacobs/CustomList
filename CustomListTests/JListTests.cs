@@ -58,6 +58,78 @@ namespace CustomListTests
         }
 
         [TestMethod]
+        public void Find_JListInJList_ReturnIndexWhereJListStarts()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            JList<int> j = new JList<int>();
+            JList<int> find = new JList<int>();
+            for(int i =0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+            find.Add(5);
+            find.Add(6);
+            find.Add(7);
+            find.Add(8);
+            find.Add(9);
+            find.Add(10);
+
+            // Act
+            int actual = j.Find(find);
+
+            // Assert
+            int expected = 5;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Find_JListNotInJList_ReturnNegativeOne()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            JList<int> j = new JList<int>();
+            JList<int> find = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+            find.Add(50);
+            find.Add(60);
+            find.Add(70);
+            find.Add(80);
+            find.Add(90);
+            find.Add(100);
+
+            // Act
+            int actual = j.Find(find);
+
+            // Assert
+            int expected = -1;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Find_ProvideStartingIndex_ReturnsIndexOfFirstFound()
+        {
+            // Arrange
+            JList<int> j = new JList<int>();
+            j.Add(0);
+            j.Add(1);
+            j.Add(0);
+            j.Add(1);
+            j.Add(2);
+            j.Add(3);
+
+            // Act
+            int actual = j.Find(1, 2);
+
+            // Assert
+            int expected = 3;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void Find_ValueNotInList_ReturnsNegativeOne()
         {
             // Arrange
@@ -92,6 +164,66 @@ namespace CustomListTests
 
             // Assert
             int expected = 1;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Indexer_InvalidIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = 10;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int actual = j[index];
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Indexer_NegativeIndex_IndexOutOfRangeException()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = -1;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int actual = j[index];
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        public void Indexer_ValidIndex_ReturnValueAtIndex()
+        {
+            // Arrange
+            int itemsToAdd = 4;
+            int index = 1;
+            int expected = index;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            int actual = j[index];
+
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
@@ -197,6 +329,261 @@ namespace CustomListTests
             int actual = j[index - 1];
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void Iteration_EmptyList_ForLoopResultsMatchForEachLoop()
+        {
+            // Arrange
+            JList<int> j = new JList<int>();
+
+            // Act
+            string actual = "";
+            foreach (int number in j)
+            {
+                actual += number.ToString() + ", ";
+            }
+
+            // Assert
+            string expected = "";
+            for (int i = 0; i < j.Count; i++)
+            {
+                expected += j[i].ToString() + ", ";
+            }
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Iteration_ListWitItems_ForLoopResultsMatchForEachLoop()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            string actual = "";
+            foreach(int number in j)
+            {
+                actual += number.ToString() + ", ";
+            }
+
+            // Assert
+            string expected = "";
+            for(int i = 0; i < j.Count; i++)
+            {
+                expected += j[i].ToString() + ", ";
+            }
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OperatorMinus_JListInJList_CountDecreases()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            JList<int> j = new JList<int>();
+            for(int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+            var k = new JList<int>() { 2, 3, 4, 5 };
+            var l = new JList<int>();
+
+            // Act
+            l = j - k;
+
+            // Assert
+            int expected = j.Count - k.Count;
+            int actual = l.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OperatorMinus_JListInJList_ListIsRemoved()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+            var k = new JList<int>() { 2, 3, 4, 5 };
+            var l = new JList<int>();
+
+            // Act
+            l = j - k;
+
+            // Assert
+            bool itemsFound = false;
+            for(int i = 0; i < l.Count; i++)
+            {
+                for(int index = 0; index < k.Count; index++)
+                {
+                    if(l[i] == k[index])
+                    {
+                        itemsFound = true;
+                        break;
+                    }
+                }
+                if (itemsFound) { break; }
+            }
+            Assert.IsFalse(itemsFound);
+        }
+
+        [TestMethod]
+        public void OperatorMinus_JListNotInJList_CountRemainsSame()
+        {
+            // Arrange
+            int itemsToAdd = 40;
+            JList<int> j = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+            var k = new JList<int>() { 2, 3, 4, 59 };
+            var l = new JList<int>();
+
+            // Act
+            l = j - k;
+
+            // Assert
+            int expected = j.Count;
+            int actual = l.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OperatorPlus_OneEmptyLists_ContainsNonEmptyList()
+        {
+            // Arrange
+            int itemsToAdd = 10;
+            JList<int> j = new JList<int>();
+            JList<int> k = new JList<int>();
+            JList<int> l = new JList<int>();
+            for(int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+
+            // Act
+            l = j + k;
+
+            // Assert
+            bool validNewList = true;
+            for (int i = 0; i < l.Count; i++)
+            {
+                if(i < j.Count)
+                {
+                    if(j[i] != l[i])
+                    {
+                        validNewList = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    validNewList = false;
+                    break;
+                }
+            }
+            Assert.IsTrue(validNewList);
+        }
+
+        [TestMethod]
+        public void OperatorPlus_TwoEmptyLists_CountEqualsZero()
+        {
+            // Arrange
+            JList<int> j = new JList<int>();
+            JList<int> k = new JList<int>();
+            JList<int> l = new JList<int>();
+
+            // Act
+            l = j + k;
+
+            // Assert
+            int expected = j.Count + k.Count;
+            int actual = l.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OperatorPlus_TwoListsWithItems_CountEqualsSumOfCount()
+        {
+            // Arrange
+            int itemsToAdd = 10;
+            JList<int> j = new JList<int>();
+            JList<int> k = new JList<int>();
+            JList<int> l = new JList<int>();
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                j.Add(i);
+            }
+            for (int i = 0; i < itemsToAdd; i++)
+            {
+                k.Add(i*10);
+            }
+
+            // Act
+            l = j + k;
+
+            // Assert
+            int expected = j.Count + k.Count;
+            int actual = l.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        //[TestMethod]
+        //public void OperatorPlus_TwoListsWithItems_NewListContainsBothOldLists()
+        //{
+        //    // Arrange
+        //    int itemsToAdd = 10;
+        //    JList<int> j = new JList<int>();
+        //    JList<int> k = new JList<int>();
+        //    JList<int> l = new JList<int>();
+        //    for (int i = 0; i < itemsToAdd; i++)
+        //    {
+        //        j.Add(i);
+        //    }
+        //    for (int i = 0; i < itemsToAdd; i++)
+        //    {
+        //        k.Add(i * 10);
+        //    }
+
+        //    // Act
+        //    l = j + k;
+
+        //    // Assert
+        //    bool validNewList = true;
+        //    for(int i = 0; i < l.Count; i++)
+        //    {
+        //        if(i < j.Count)
+        //        {
+        //            if(j[i] != l[i])
+        //            {
+        //                validNewList = false;
+        //                break;
+        //            }
+        //        }
+        //        else if(i < k.Count)
+        //        {
+        //            if(k[i - (j.Count - 1)] != l[i])
+        //            {
+        //                validNewList = false;
+        //                break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            validNewList = false;
+        //            break;
+        //        }
+        //    }
+        //    Assert.IsTrue(validNewList);
+        //}
 
         [TestMethod]
         public void Remove_ValueInList_ValueIsRemoved()
@@ -342,12 +729,11 @@ namespace CustomListTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Indexer_InvalidIndex_IndexOutOfRangeException()
+        public void ToString_MultipleItemsInList_OutputCSVString()
         {
             // Arrange
-            int itemsToAdd = 4;
-            int index = 10;
+            int itemsToAdd = 10;
+            string expected = "{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }";
             JList<int> j = new JList<int>();
             for (int i = 0; i < itemsToAdd; i++)
             {
@@ -355,50 +741,25 @@ namespace CustomListTests
             }
 
             // Act
-            int actual = j[index];
-
-            // Assert
-
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void Indexer_NegativeIndex_IndexOutOfRangeException()
-        {
-            // Arrange
-            int itemsToAdd = 4;
-            int index = -1;
-            JList<int> j = new JList<int>();
-            for (int i = 0; i < itemsToAdd; i++)
-            {
-                j.Add(i);
-            }
-
-            // Act
-            int actual = j[index];
-
-            // Assert
-
-        }
-
-        [TestMethod]
-        public void Indexer_ValidIndex_ReturnValueAtIndex()
-        {
-            // Arrange
-            int itemsToAdd = 4;
-            int index = 1;
-            int expected = index;
-            JList<int> j = new JList<int>();
-            for (int i = 0; i < itemsToAdd; i++)
-            {
-                j.Add(i);
-            }
-
-            // Act
-            int actual = j[index];
+            string actual = j.ToString();
 
             // Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ToString_NoItemsInList_EmptyString()
+        {
+            // Arrange
+            string expected = "{  }";
+            JList<int> j = new JList<int>();
+
+            // Act
+            string actual = j.ToString();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
