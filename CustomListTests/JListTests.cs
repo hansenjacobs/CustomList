@@ -727,6 +727,36 @@ namespace CustomListTests
         }
 
         [TestMethod]
+        public void Sort_ListOfUnsortedValue_CountRemainsSame()
+        {
+            // Arrange
+            var j = new JList<int>() { 5, 3, 7, 2, 6, 4, 1 };
+
+            // Act
+            int expected = j.Count;
+            j = JList<int>.Sort<int>(j);
+
+            // Assert
+            int actual = j.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void Sort_ListOfUnsortedValues_StringOutputInSortedOrder()
+        {
+            // Arrange
+            var j = new JList<int>() { 5, 3, 7, 2, 6, 4, 1 };
+
+            // Act
+            j = JList<int>.Sort<int>(j);
+
+            // Assert
+            string expected = "{ 1, 2, 3, 4, 5, 6, 7 }";
+            string actual = j.ToString();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void ToString_MultipleItemsInList_OutputCSVString()
         {
             // Arrange

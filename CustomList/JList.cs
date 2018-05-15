@@ -40,8 +40,10 @@ namespace CustomList
                 {
                     data[index] = value;
                 }
-
-                throw new ArgumentOutOfRangeException();
+                else
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -274,6 +276,31 @@ namespace CustomList
                 throw new ArgumentOutOfRangeException();
             }
 
+        }
+
+        public static JList<U> Sort<U>(JList<U> list) where U : IComparable
+        {
+            bool didSwap = false;
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                if (list[i].CompareTo(list[i + 1]) > 0)
+                {
+                    didSwap = true;
+                    U temporary = list[i];
+                    list[i] = list[i + 1];
+                    list[i + 1] = temporary;
+                }
+            }
+
+            if (didSwap)
+            {
+                return JList<U>.Sort<U>(list);
+            }
+            else
+            {
+                return list;
+            }
         }
 
         public override string ToString()
