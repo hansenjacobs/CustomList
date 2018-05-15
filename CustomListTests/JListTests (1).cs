@@ -558,28 +558,30 @@ namespace CustomListTests
 
             // Assert
             bool validNewList = true;
-
-            for (int i = 0; i < j.Count; i++)
+            for (int i = 0; i < l.Count; i++)
             {
-                if(j[i] != l[i])
+                if (i < j.Count)
                 {
-                    validNewList = false;
-                    break;
-                }
-            }
-
-            if (validNewList)
-            {
-                for (int i = 0; i < k.Count; i++)
-                {
-                    if(k[i] != l[i+j.Count])
+                    if (j[i] != l[i])
                     {
                         validNewList = false;
                         break;
                     }
                 }
+                else if (i < j.Count + k.Count)
+                {
+                    if (k[i - (j.Count - 1)] != l[i])
+                    {
+                        validNewList = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    validNewList = false;
+                    break;
+                }
             }
-
             Assert.IsTrue(validNewList);
         }
 
@@ -756,57 +758,6 @@ namespace CustomListTests
             string actual = j.ToString();
 
             // Assert
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void Zip_TwoEqualCountLists_CheckValues()
-        {
-            // Arrange
-            var odd = new JList<int>() { 1, 3, 5, 7 };
-            var even = new JList<int>() { 2, 4, 6, 8 };
-            var numbers = new JList<int>();
-
-            // Act
-            numbers = JList<int>.Zip(odd, even);
-
-            // Assert
-            string expected = "{ 1, 2, 3, 4, 5, 6, 7, 8 }";
-            string actual = numbers.ToString();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void Zip_TwoUnequalCountLists_CountEqualSmallerListTimesTwo()
-        {
-            // Arrange
-            var odd = new JList<int>() { 1, 3, 5, 7, 9, 11 };
-            var even = new JList<int>() { 2, 4, 6, 8 };
-            var numbers = new JList<int>();
-
-            // Act
-            numbers = JList<int>.Zip(odd, even);
-
-            // Assert
-            int expected = odd.Count < even.Count ? odd.Count * 2 : even.Count * 2;
-            int actual = numbers.Count;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void Zip_TwoEqualCountLists_CountEqualsSumOfCount()
-        {
-            // Arrange
-            var odd = new JList<int>() { 1, 3, 5, 7 };
-            var even = new JList<int>() { 2, 4, 6, 8 };
-            var numbers = new JList<int>();
-
-            // Act
-            numbers = JList<int>.Zip(odd, even);
-
-            // Assert
-            int expected = odd.Count + even.Count;
-            int actual = numbers.Count;
             Assert.AreEqual(expected, actual);
         }
 

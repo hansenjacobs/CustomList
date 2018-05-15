@@ -292,5 +292,19 @@ namespace CustomList
 
             return output + " }";
         }
+
+        public static JList<T> Zip(JList<T> listA, JList<T> listB)
+        {
+            var output = new JList<T>();
+            int smallestCount = listA.Count < listB.Count ? listA.Count : listB.Count;
+
+            for(int i = 0; i < smallestCount; i++)
+            {
+                output.Add(listA[i]);
+                output.Add(listB[i]);
+            }
+
+            return output;
+        }
     }
 }
