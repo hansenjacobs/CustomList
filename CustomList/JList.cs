@@ -278,6 +278,7 @@ namespace CustomList
 
         }
 
+
         public static JList<U> Sort<U>(JList<U> list) where U : IComparable
         {
             bool didSwap = false;
